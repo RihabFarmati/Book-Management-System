@@ -25,4 +25,6 @@ public class Book {
     private String auth;
 
     private Double price;
+
+    private String description;
 }
