@@ -1,8 +1,11 @@
 package com.example.controllers;
 
-import com.example.service.BookService;
 import com.example.model.Book;
+import com.example.service.BookService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +17,21 @@ import java.util.List;
 @RequestMapping("/api/store")
 public class BookController {
 
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+
     @Autowired
     BookService bookService;
 
-    @GetMapping("/book/all")
+    @Cacheable(cacheNames = "books")
+    @GetMapping("/books")
     public ResponseEntity<List<Book>> getAllBooks() {
-        return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
+        try {
+            List<Book> books = bookService.getAllBooks();
+            return new ResponseEntity<>(books, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Failed to retrieve all books: {}", e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
