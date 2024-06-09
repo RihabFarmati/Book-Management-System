@@ -40,7 +40,7 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public Book addBook(@RequestBody Book book) {
+    public ResponseEntity<Book> addBook(@RequestBody Book book) throws Exception {
         return bookService.addBook(book);
     }
 

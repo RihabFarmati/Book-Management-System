@@ -1,8 +1,11 @@
 package com.example.service;
 
+import com.example.exceptions.BookException;
 import com.example.model.Book;
 import com.example.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,9 +29,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book addBook(Book book) {
-        // TODO: add exception if the book already exist
-        return bookRepository.save(book);
+    public ResponseEntity<Book> addBook(Book book) throws BookException {
+        Optional<Book> existingBook = bookRepository.findBookByTitleAndAuth(book.getTitle(), book.getAuth());
+        if (existingBook.isPresent()) {
+            throw new BookException("Book already exist", "BOOK_ALREADY_EXIST");
+        }
+
+        return new ResponseEntity<>(bookRepository.save(book), HttpStatus.CREATED);
     }
 
     @Override

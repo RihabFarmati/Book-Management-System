@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.model.Book;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface BookService {
 
     Book getBookById(Integer id);
 
-    Book addBook(Book book);
+    ResponseEntity<Book> addBook(Book book) throws Exception;
 
     Book updateBook(Integer id, Book updatedBook);
 
