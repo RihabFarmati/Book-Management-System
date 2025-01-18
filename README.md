@@ -17,8 +17,8 @@ This is a simple CRUD (Create, Read, Update, Delete) application for managing bo
 - Spring Security
 - JSON Web Tokens (JWT)
 - Hibernate (Spring Data JPA)
-- H2 Database (or your preferred database)
-- Swagger (Springfox) for API documentation
+- H2 Database
+- Swagger for API documentation
 
 ## Setup Instructions
 
