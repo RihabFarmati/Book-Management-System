@@ -3,6 +3,7 @@ package com.example.models;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,6 +21,7 @@ public class User {
     @GeneratedValue(strategy = AUTO)
     private Long id;
 
+    @Size(min = 3 , message = "your first name should have more than 3 characters ")
     private String firstName;
 
     private String userName;

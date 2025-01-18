@@ -1,11 +1,13 @@
 package com.example.dtos;
 
-import com.example.models.User;
 import lombok.Data;
+
+import javax.validation.constraints.Size;
 
 @Data
 public class UserDTO {
 
+    @Size(min = 3 , message = "your first name should have more than 3 characters ")
     private String firstName;
 
     private String username;
@@ -14,12 +16,4 @@ public class UserDTO {
 
     private String roleName;
 
-    public User getUser() {
-        User user = new User();
-
-        user.setFirstName(this.firstName);
-        user.setPassword(this.password);
-        user.setUserName(this.username);
-        return user;
-    }
 }

@@ -5,18 +5,23 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.dtos.UserDTO;
+import com.example.mappers.UserMapper;
 import com.example.models.Role;
 import com.example.models.User;
 import com.example.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
@@ -53,10 +58,19 @@ public class UserResource {
     }
 
     @PostMapping("/user/save")
-    public ResponseEntity<User> saveUser(@RequestBody() UserDTO userDTO) throws IOException {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
+    public ResponseEntity<UserDTO> saveUser(@Valid @RequestBody() UserDTO userDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Handle validation errors
+            return ResponseEntity.badRequest().body(null);
+        }
 
-        return ResponseEntity.created(uri).body(userService.saveUser(userDTO.getUser(), userDTO.getRoleName()));
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
+        try {
+            User user = userService.saveUser(userMapper.toEntity(userDTO), userDTO.getRoleName());
+            return ResponseEntity.created(uri).body(userMapper.toDto(user));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user data", e);
+        }
     }
 
     @GetMapping(value = "user/{username}")
