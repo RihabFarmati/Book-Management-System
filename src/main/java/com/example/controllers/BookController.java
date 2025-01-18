@@ -1,6 +1,6 @@
 package com.example.controllers;
 
-import com.example.model.Book;
+import com.example.models.Book;
 import com.example.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

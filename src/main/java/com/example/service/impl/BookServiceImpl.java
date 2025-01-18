@@ -1,7 +1,7 @@
 package com.example.service.impl;
 
 import com.example.exceptions.BookException;
-import com.example.model.Book;
+import com.example.models.Book;
 import com.example.repository.BookRepository;
 import com.example.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;

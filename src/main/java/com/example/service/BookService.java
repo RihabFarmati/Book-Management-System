@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.model.Book;
+import com.example.models.Book;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

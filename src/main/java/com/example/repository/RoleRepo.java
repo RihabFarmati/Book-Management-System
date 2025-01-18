@@ -1,6 +1,6 @@
 package com.example.repository;
 
-import com.example.model.Role;
+import com.example.models.Role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
