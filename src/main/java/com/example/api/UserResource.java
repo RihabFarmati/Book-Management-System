@@ -32,8 +32,15 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class UserResource {
 
-    @Autowired
     private final UserService userService;
+
+    private UserMapper userMapper;
+
+    @Autowired
+    public UserResource(UserService userService, UserMapper userMapper) {
+        this.userService = userService;
+        this.userMapper = userMapper;
+    }
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
