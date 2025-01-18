@@ -1,10 +1,11 @@
-package com.example.service;
+package com.example.service.impl;
 
 import com.example.model.User;
 
 import com.example.model.Role;
 import com.example.repository.RoleRepo;
 import com.example.repository.UserRepo;
+import com.example.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
