@@ -5,7 +5,9 @@ import com.example.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,13 @@ public class BookController {
     @Autowired
     BookService bookService;
 
-    @Cacheable(cacheNames = "books")
+    @GetMapping("/books")
+    public ResponseEntity<Page<Book>> getBooks(
+            @PageableDefault(size = 5, sort = "id") Pageable pageable) {
+        Page<Book> booksPage = bookService.getAllBooks(pageable);
+        return ResponseEntity.ok(booksPage);
+    }
+
     @GetMapping("/books")
     public ResponseEntity<List<Book>> getAllBooks() {
         try {
